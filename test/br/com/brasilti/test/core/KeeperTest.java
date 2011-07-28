@@ -1,4 +1,4 @@
-package br.com.brasilti.project.core;
+package br.com.brasilti.test.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,12 +17,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.brasilti.project.entities.EntidadeBasic;
 import br.com.brasilti.repository.core.Keeper;
 import br.com.brasilti.repository.enums.ErrorEnum;
 import br.com.brasilti.repository.enums.FieldEnum;
 import br.com.brasilti.repository.enums.RemoveEnum;
 import br.com.brasilti.repository.exceptions.RepositoryException;
+import br.com.brasilti.test.entities.EntidadeExemplo;
 import br.com.brasilti.utils.reflection.ReflectionUtil;
 
 public class KeeperTest {
@@ -59,7 +59,7 @@ public class KeeperTest {
 
 	@Test
 	public void devePersistirUmaInstanciaEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 
@@ -70,7 +70,7 @@ public class KeeperTest {
 
 	@Test
 	public void deveAlterarUmaInstanciaEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
@@ -82,12 +82,12 @@ public class KeeperTest {
 		String value = "Teste";
 		instance.setStringField(value);
 
-		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), EntidadeBasic.class);
+		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), EntidadeExemplo.class);
 		ReflectionUtil.set(Boolean.FALSE, active, instance);
 
 		this.keeper.persist(instance);
 
-		EntidadeBasic actualInstance = this.manager.find(EntidadeBasic.class, instance.getId());
+		EntidadeExemplo actualInstance = this.manager.find(EntidadeExemplo.class, instance.getId());
 		assertTrue(instance.getActive());
 		assertEquals(value, actualInstance.getStringField());
 	}
@@ -108,7 +108,7 @@ public class KeeperTest {
 
 	@Test
 	public void deveRemoverDeFormaLogicaUmaInstanciaEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
@@ -123,7 +123,7 @@ public class KeeperTest {
 
 	@Test
 	public void deveRemoverDeFormaLogicaUmaInstanciaDetachedEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
@@ -132,7 +132,7 @@ public class KeeperTest {
 		this.manager.detach(instance);
 		assertFalse(this.manager.contains(instance));
 
-		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), EntidadeBasic.class);
+		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), EntidadeExemplo.class);
 		ReflectionUtil.set(Boolean.TRUE, active, instance);
 
 		this.keeper.remove(instance);
@@ -143,7 +143,7 @@ public class KeeperTest {
 
 	@Test
 	public void deveRemoverDeFormaLogicaComParametroUmaInstanciaEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
@@ -158,7 +158,7 @@ public class KeeperTest {
 
 	@Test
 	public void deveRemoverDeFormaLogicaComParametroUmaInstanciaDetachedEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
@@ -167,7 +167,7 @@ public class KeeperTest {
 		this.manager.detach(instance);
 		assertFalse(this.manager.contains(instance));
 
-		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), EntidadeBasic.class);
+		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), EntidadeExemplo.class);
 		ReflectionUtil.set(Boolean.TRUE, active, instance);
 
 		this.keeper.remove(instance, RemoveEnum.LOGICAL);
@@ -178,7 +178,7 @@ public class KeeperTest {
 
 	@Test
 	public void deveRemoverDeFormaFisicaUmaInstanciaEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
@@ -188,13 +188,13 @@ public class KeeperTest {
 
 		assertFalse(this.manager.contains(instance));
 
-		EntidadeBasic actualInstance = this.manager.find(EntidadeBasic.class, instance.getId());
+		EntidadeExemplo actualInstance = this.manager.find(EntidadeExemplo.class, instance.getId());
 		assertNull(actualInstance);
 	}
 
 	@Test
 	public void deveRemoverDeFormaFisicaUmaInstanciaDetachedEmUmRepositorio() throws RepositoryException {
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
@@ -205,7 +205,7 @@ public class KeeperTest {
 
 		this.keeper.remove(instance, RemoveEnum.PHYSICAL);
 
-		EntidadeBasic actualInstance = this.manager.find(EntidadeBasic.class, instance.getId());
+		EntidadeExemplo actualInstance = this.manager.find(EntidadeExemplo.class, instance.getId());
 		assertNull(actualInstance);
 	}
 
@@ -213,7 +213,7 @@ public class KeeperTest {
 	public void deveLancarExcecaoQuandoHouverUmaExcecaoJPANoPersistException() throws RepositoryException {
 		this.manager.close();
 
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 		this.keeper.persist(instance);
 	}
 
@@ -222,7 +222,7 @@ public class KeeperTest {
 		try {
 			this.manager.close();
 
-			EntidadeBasic instance = new EntidadeBasic();
+			EntidadeExemplo instance = new EntidadeExemplo();
 			this.keeper.persist(instance);
 		} catch (RepositoryException e) {
 			assertTrue(e.getMessage().contains(ErrorEnum.UNEXPECTED_EXCEPTION.getMessage("")));
@@ -233,7 +233,7 @@ public class KeeperTest {
 	public void deveLancarExcecaoQuandoHouverUmaExcecaoJPANoRemoveLogicoException() throws RepositoryException {
 		this.manager.close();
 
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 		this.keeper.remove(instance);
 	}
 
@@ -242,7 +242,7 @@ public class KeeperTest {
 		try {
 			this.manager.close();
 
-			EntidadeBasic instance = new EntidadeBasic();
+			EntidadeExemplo instance = new EntidadeExemplo();
 			this.keeper.remove(instance);
 		} catch (RepositoryException e) {
 			assertTrue(e.getMessage().contains(ErrorEnum.UNEXPECTED_EXCEPTION.getMessage("")));
@@ -253,7 +253,7 @@ public class KeeperTest {
 	public void deveLancarExcecaoQuandoHouverUmaExcecaoJPANoRemoveFisicoException() throws RepositoryException {
 		this.manager.close();
 
-		EntidadeBasic instance = new EntidadeBasic();
+		EntidadeExemplo instance = new EntidadeExemplo();
 		this.keeper.remove(instance, RemoveEnum.PHYSICAL);
 	}
 
@@ -262,7 +262,7 @@ public class KeeperTest {
 		try {
 			this.manager.close();
 
-			EntidadeBasic instance = new EntidadeBasic();
+			EntidadeExemplo instance = new EntidadeExemplo();
 			this.keeper.remove(instance, RemoveEnum.PHYSICAL);
 		} catch (RepositoryException e) {
 			assertTrue(e.getMessage().contains(ErrorEnum.UNEXPECTED_EXCEPTION.getMessage("")));

@@ -1,4 +1,4 @@
-package br.com.brasilti.project.entities;
+package br.com.brasilti.test.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -7,12 +7,13 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-public class InvalidEntidadeBasic implements Serializable {
+public class EntidadeExemplo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,6 +23,8 @@ public class InvalidEntidadeBasic implements Serializable {
 
 	@Version
 	private Integer version;
+
+	private Boolean active;
 
 	private String stringField;
 
@@ -37,6 +40,9 @@ public class InvalidEntidadeBasic implements Serializable {
 	private Calendar calendarField;
 
 	private byte[] byteField;
+
+	@OneToOne
+	private EntidadeExemplo entidadeExemplo;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -54,6 +60,10 @@ public class InvalidEntidadeBasic implements Serializable {
 
 	public Integer getVersion() {
 		return version;
+	}
+
+	public Boolean getActive() {
+		return active;
 	}
 
 	public String getStringField() {
@@ -110,6 +120,19 @@ public class InvalidEntidadeBasic implements Serializable {
 
 	public void setByteField(byte[] byteField) {
 		this.byteField = byteField;
+	}
+
+	public EntidadeExemplo getEntidadeExemplo() {
+		return entidadeExemplo;
+	}
+
+	public void setEntidadeExemplo(EntidadeExemplo entidadeExemplo) {
+		this.entidadeExemplo = entidadeExemplo;
+	}
+
+	@Override
+	public String toString() {
+		return "EntidadeExemplo [stringField=" + stringField + "]";
 	}
 
 }

@@ -20,20 +20,20 @@
 <ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
     <info
-        organisation="br.com.wave"
-        module="ProjectJPA"
+        organisation="br.com.brasilti"
+        module="RepositoryTest"
         status="integration">
 	</info>
 	<dependencies>
       	<dependency org="org.jboss.weld.se" name="weld-se" rev="1.1.1.Final" transitive="false"/>
-		<dependency org="commons-collections" name="commons-collections" rev="3.1" transitive="false"/>
-		<dependency org="dom4j" name="dom4j" rev="1.6.1" transitive="false"/>
-		<dependency org="org.hibernate.javax.persistence" name="hibernate-jpa-2.0-api" rev="1.0.0.Final" transitive="false"/>
-		<dependency org="javassist" name="javassist" rev="3.9.0.GA" transitive="false"/>
-		<dependency org="javax.transaction" name="jta" rev="1.1" transitive="false"/>
-		<dependency org="antlr" name="antlr" rev="2.7.6" transitive="false"/>
       	<dependency org="org.mockito" name="mockito-all" rev="1.8.5" transitive="false"/>
 		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10" transitive="false"/> 
+		<dependency org="org.hibernate.javax.persistence" name="hibernate-jpa-2.0-api" rev="1.0.0.Final" transitive="false"/>
+		<dependency org="javassist" name="javassist" rev="3.9.0.GA" transitive="false"/>
+		<dependency org="commons-collections" name="commons-collections" rev="3.1" transitive="false"/>
+		<dependency org="dom4j" name="dom4j" rev="1.6.1" transitive="false"/>
+		<dependency org="javax.transaction" name="jta" rev="1.1" transitive="false"/>
+		<dependency org="antlr" name="antlr" rev="2.7.6" transitive="false"/>
 		<dependency org="log4j" name="log4j" rev="1.2.15" transitive="false"/>
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" transitive="false"/>
       	<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" transitive="false"/>
