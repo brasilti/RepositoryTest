@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
 
@@ -66,6 +67,7 @@ public class KeeperTest {
 		assertNotNull(instance.getId());
 		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
+		assertNotNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
 	}
 
 	@Test
@@ -74,21 +76,24 @@ public class KeeperTest {
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
 
 		this.manager.detach(instance);
 		assertFalse(this.manager.contains(instance));
 
-		String value = "Teste";
-		instance.setStringField(value);
-
 		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), EntidadeExemplo.class);
 		ReflectionUtil.set(Boolean.FALSE, active, instance);
 
+		String value = "Teste";
+		instance.setStringField(value);
+
 		this.keeper.persist(instance);
 
-		EntidadeExemplo actualInstance = this.manager.find(EntidadeExemplo.class, instance.getId());
+		assertNotNull(instance.getId());
 		assertTrue(instance.getActive());
+
+		EntidadeExemplo actualInstance = this.manager.find(EntidadeExemplo.class, instance.getId());
 		assertEquals(value, actualInstance.getStringField());
 	}
 
@@ -112,13 +117,15 @@ public class KeeperTest {
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
 
 		this.keeper.remove(instance);
 
-		assertTrue(this.manager.contains(instance));
 		assertNotNull(instance.getId());
 		assertFalse(instance.getActive());
+		assertTrue(this.manager.contains(instance));
+		assertNotNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
 	}
 
 	@Test
@@ -127,6 +134,7 @@ public class KeeperTest {
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
 
 		this.manager.detach(instance);
@@ -139,6 +147,7 @@ public class KeeperTest {
 
 		assertNotNull(instance.getId());
 		assertFalse(instance.getActive());
+		assertNotNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
 	}
 
 	@Test
@@ -147,13 +156,15 @@ public class KeeperTest {
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
 
 		this.keeper.remove(instance, RemoveEnum.LOGICAL);
 
-		assertTrue(this.manager.contains(instance));
 		assertNotNull(instance.getId());
 		assertFalse(instance.getActive());
+		assertTrue(this.manager.contains(instance));
+		assertNotNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
 	}
 
 	@Test
@@ -162,6 +173,7 @@ public class KeeperTest {
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
 
 		this.manager.detach(instance);
@@ -174,6 +186,7 @@ public class KeeperTest {
 
 		assertNotNull(instance.getId());
 		assertFalse(instance.getActive());
+		assertNotNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
 	}
 
 	@Test
@@ -182,14 +195,15 @@ public class KeeperTest {
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
 
 		this.keeper.remove(instance, RemoveEnum.PHYSICAL);
 
+		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertFalse(this.manager.contains(instance));
-
-		EntidadeExemplo actualInstance = this.manager.find(EntidadeExemplo.class, instance.getId());
-		assertNull(actualInstance);
+		assertNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
 	}
 
 	@Test
@@ -198,6 +212,7 @@ public class KeeperTest {
 
 		this.keeper.persist(instance);
 		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
 		assertTrue(this.manager.contains(instance));
 
 		this.manager.detach(instance);
@@ -205,8 +220,33 @@ public class KeeperTest {
 
 		this.keeper.remove(instance, RemoveEnum.PHYSICAL);
 
-		EntidadeExemplo actualInstance = this.manager.find(EntidadeExemplo.class, instance.getId());
-		assertNull(actualInstance);
+		assertNotNull(instance.getId());
+		assertTrue(instance.getActive());
+		assertFalse(this.manager.contains(instance));
+		assertNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
+	}
+
+	@Test
+	public void naoDeveLancarExcecaoQuandoRemoverDeFormaFisicaUmaInstanciaInexistente() {
+		try {
+			EntidadeExemplo instance = new EntidadeExemplo();
+
+			this.keeper.persist(instance);
+			assertNotNull(instance.getId());
+			assertTrue(instance.getActive());
+			assertTrue(this.manager.contains(instance));
+
+			this.keeper.remove(instance, RemoveEnum.PHYSICAL);
+
+			assertNotNull(instance.getId());
+			assertTrue(instance.getActive());
+			assertFalse(this.manager.contains(instance));
+			assertNull(this.manager.find(EntidadeExemplo.class, instance.getId()));
+
+			this.keeper.remove(instance, RemoveEnum.PHYSICAL);
+		} catch (RepositoryException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test(expected = RepositoryException.class)

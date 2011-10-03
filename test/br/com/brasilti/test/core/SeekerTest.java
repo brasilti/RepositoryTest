@@ -49,7 +49,9 @@ import br.com.brasilti.utils.collection.CollectionUtil;
 import br.com.brasilti.utils.reflection.ReflectionUtil;
 
 public class SeekerTest {
-
+//	TODO Testar nomes de atributos com pontos - busca encadeada.
+//	TODO Equals para calendar.
+//	TODO Implementar anotacao para equals e hascode.
 	private Seeker seeker;
 
 	private EntityManager manager;
